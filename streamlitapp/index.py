@@ -130,7 +130,7 @@ if __name__ == "__main__":
         st.write("For instance:")
         st.write("- What are the main topics addressed by the Greens/EFA group ?")
         st.write("- How does the JURI committee and the Council differ on biometric systems ?")
-
+        st.write("- How do the JURI and ITRE committees diverge regarding discriminatory effects of AI systems ?")
 
 
 
