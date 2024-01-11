@@ -22,7 +22,6 @@ import numpy as np
 
 # streamlit
 import streamlit as st
-from st_files_connection import FilesConnection
 # import streamlit_authenticator as stauth
 
 # weaviate
