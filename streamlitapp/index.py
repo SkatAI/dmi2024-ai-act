@@ -126,7 +126,7 @@ if __name__ == "__main__":
             search_button = st.form_submit_button(label="OK")
 
     if not search_button:
-        st.write("Explore the AI act from the EU, contributions from the different political groups, committee, council and parliament")
+        st.write("Explore the EU AI-act (Commission, Council and Parliament), related amendments from political groups (Renew, Greens/EFA, EPP, ID, ...) and committees (CULT, TRAN, IMCO, ..)")
         st.write("For instance:")
         st.write("- What are the main topics addressed by the Greens/EFA group ?")
         st.write("- How does the JURI committee and the Council differ on biometric systems ?")
