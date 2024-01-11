@@ -31,7 +31,7 @@ from  weaviate_utils_copy import *
 
 class Retrieve(object):
 
-    def __init__(self, query, search_type, gen_model, number_elements):
+    def __init__(self, query, search_type, gen_model, number_elements, temperature, author):
         cluster_location = "cloud-cluster"
         self.client = connect_client(cluster_location)
         assert self.client is not None
@@ -44,6 +44,8 @@ class Retrieve(object):
         self.search_type = search_type
         self.gen_model = gen_model
         self.response_count_ = number_elements
+        self.temperature = temperature
+        self.author = author
         # generative
 
         self.prompt_generative_context =ChatPromptTemplate.from_template(
@@ -75,7 +77,7 @@ Your task is to answer the question below.
 
 
 
-        self.llm = ChatOpenAI(temperature=0.9, model=self.gen_model)
+        self.llm = ChatOpenAI(temperature=self.temperature, model=self.gen_model)
         self.context_chain   = LLMChain(llm=self.llm, prompt=self.prompt_generative_context,  output_key="answer_context", verbose=False)
 
         self.overall_context_chain = SequentialChain(
@@ -95,7 +97,10 @@ Your task is to answer the question below.
         )
 
     def search(self):
-        filters = None
+        if self.author!= "--":
+            filters = Filter("author").equal(self.author)
+        else:
+            filters = None
 
         if self.search_type == "hybrid":
             self.response = self.collection.query.hybrid(

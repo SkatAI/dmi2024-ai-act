@@ -79,9 +79,10 @@ if __name__ == "__main__":
             wvc.Property(name='uuid', data_type=wvc.DataType.UUID, skip_vectorization=True),
             wvc.Property(name='author_full', data_type=wvc.DataType.TEXT, skip_vectorization=True),
             wvc.Property(name='token_count', data_type=wvc.DataType.INT, skip_vectorization=True),
+
+            wvc.Property(name='author', data_type=wvc.DataType.TEXT, vectorize_property_name = True),
             wvc.Property(name='title', data_type=wvc.DataType.TEXT, vectorize_property_name = False),
             wvc.Property(name='numbering',data_type=wvc.DataType.TEXT, vectorize_property_name = False),
-            wvc.Property(name='author', data_type=wvc.DataType.TEXT, vectorize_property_name = True),
             wvc.Property(name='text', data_type=wvc.DataType.TEXT, vectorize_property_name = False),
         ]
 

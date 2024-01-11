@@ -71,7 +71,7 @@ if __name__ == "__main__":
     # st.write("best suited for questions such as : on topic <topic>, what differences do you see between the groups")
     status = st.session_state['authentication_status']
     st.write(f"status: {status}")
-
+    st.session_state["authentication_status"] = True
     # ----------------------------------------------------------------------------
     # Sidebar
     # ----------------------------------------------------------------------------
@@ -93,10 +93,21 @@ if __name__ == "__main__":
                     key = "search_type_key"
                 )
             # add author + title + numbering
+            # author
+            author_options = ['--','COMMISSION', 'COUNCIL',  'PARLIAMENT', 'CULT', 'ECR', 'EPP', 'IMCO-LIBE', 'ITRE', 'JURI', 'TRAN', 'GUE/NGL','Greens/EFA', 'ID', 'Renew', 'S&D']
+            author = st.selectbox("authored by", author_options,
+                    index = 0 if st.session_state.get("author_key") is None else author_options.index(st.session_state.get("author_key")),
+                    key = "author_key"
+                )
+            # temperature
+            st.write(st.session_state.get("search_temperature_key"))
+            temperature = st.slider('temperature', min_value=0.0, max_value=1.0, step=0.1,
+                             value= 0.5 if st.session_state.get("search_temperature_key") is None else st.session_state.get("search_temperature_key"),
+                             key = "search_temperature_key")
 
             number_elements_options = [1,2,3,4,5,6,7,8,9,10]
             number_elements = st.selectbox("Number elements", number_elements_options,
-                    index = 0 if st.session_state.get("number_elements_key") is None else number_elements_options.index(st.session_state.get("number_elements_key")),
+                    index = 4 if st.session_state.get("number_elements_key") is None else number_elements_options.index(st.session_state.get("number_elements_key")),
                     key = "number_elements_key"
                 )
 
@@ -119,11 +130,11 @@ if __name__ == "__main__":
         # Search results
         # ----------------------------------------------------------------------------
         if search_button:
-            retr = Retrieve(search_query, search_type, gen_model, number_elements)
+            retr = Retrieve(search_query, search_type, gen_model, number_elements, temperature, author)
             retr.search()
 
             with sc2:
-                st.caption(f"Your question was:   \n**{search_query}**  \nwith search type: **{search_type}**, ** content. {gen_model}, number_elements {number_elements}")
+                st.caption(f"Your question was:   \n**{search_query}**  \nwith search type: **{search_type}**, ** content. {gen_model}, number_elements {number_elements}, temperature: {temperature}, author: {author}")
 
             st.subheader("Answer without context:")
             retr.generate_answer_bare()
@@ -157,6 +168,6 @@ if __name__ == "__main__":
     # ----------------------------------------------------------------------------
     # Connection form
     # ----------------------------------------------------------------------------
-    if (st.session_state["authentication_status"] is None) | (not st.session_state["authentication_status"] ) :
-        authenticator.login('Login', 'main')
-        st.warning("Please enter your username and password")
+    # if (st.session_state["authentication_status"] is None) | (not st.session_state["authentication_status"] ) :
+    #     authenticator.login('Login', 'main')
+    #     st.warning("Please enter your username and password")
