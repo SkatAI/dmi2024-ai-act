@@ -122,8 +122,12 @@ if __name__ == "__main__":
     sc1, sc2 = st.columns([3,1])
     with sc1:
         with st.form('search_form', clear_on_submit = False):
-            search_query = st.text_input("Your query:", key="query_input" )
-            search_button = st.form_submit_button(label="OK")
+            sc3, sc4 = st.columns([8,1])
+            with sc3:
+                search_query = st.text_input("Your query:", key="query_input" )
+            with sc4:
+                st.write(' ')
+                search_button = st.form_submit_button(label="OK")
 
     if not search_button:
         st.write("Explore the EU AI-act (Commission, Council and Parliament), related amendments from political groups (Renew, Greens/EFA, EPP, ID, ...) and committees (CULT, TRAN, IMCO, ..)")
@@ -132,6 +136,9 @@ if __name__ == "__main__":
         st.write("- How does the JURI committee and the Council differ on biometric systems ?")
         st.write("- How do the JURI and ITRE committees diverge regarding discriminatory effects of AI systems ?")
         st.write("- What are the main contributions of the Renew political group ? (GPT4, 10 docs)")
+        st.write("- How does the commission enforce  mitigation of high risks AI systems")
+        st.write("- Describe the risk management system for providers")
+        st.write("- How does the CULT committee and the Council differ on biometric systems ?")
 
 
 
@@ -152,14 +159,14 @@ if __name__ == "__main__":
         with col2:
             st.markdown(f"<em>{retr.answer_bare}</em>", unsafe_allow_html=True)
 
-        st.subheader("Answer with retrieved elements")
+        st.subheader("Answer with retrieved documents")
         retr.generate_answer_with_context()
         _, col2 = st.columns([1, 11])
         with col2:
             st.markdown(f"<em>{retr.answer_with_context}</em>", unsafe_allow_html=True)
 
         retr.save()
-        st.header("Retrieved elements")
+        st.header("Retrieved documents")
 
         for i in range(len(retr.response.objects)):
             with st.expander(retr.retrieved_title(i)):
@@ -170,9 +177,9 @@ if __name__ == "__main__":
                     retr.format_properties(i)
                     retr.format_metadata(i)
                     st.divider()
-        st.divider()
-        with st.expander("Context given wo the prompt: "):
-            st.caption(retr.context)
+    # st.divider()
+    # with st.expander("Context given wo the prompt: "):
+    #     st.caption(retr.context)
 
     # ----------------------------------------------------------------------------
     # Connection form
