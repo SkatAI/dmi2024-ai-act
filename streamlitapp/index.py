@@ -22,6 +22,8 @@ import numpy as np
 
 # streamlit
 import streamlit as st
+from st_files_connection import FilesConnection
+# import streamlit_authenticator as stauth
 
 # weaviate
 from weaviate.classes import Filter
@@ -40,7 +42,6 @@ from langchain.chains import SequentialChain
 from  weaviate_utils_copy import *
 from retrieve import Retrieve
 
-# import streamlit_authenticator as stauth
 
 import yaml
 from yaml.loader import SafeLoader
@@ -67,7 +68,8 @@ if __name__ == "__main__":
     #     config['preauthorized']
     # )
 
-    st.title(":blue[AI-act RAG]")
+    st.title(":blue[EU - AI-act Enquirer]")
+
     # st.write("best suited for questions such as : on topic <topic>, what differences do you see between the groups")
     # status = st.session_state['authentication_status']
     # st.write(f"status: {status}")
@@ -124,6 +126,14 @@ if __name__ == "__main__":
             search_query = st.text_input("Your query:", key="query_input" )
             search_button = st.form_submit_button(label="OK")
 
+    if not search_button:
+        st.write("Explore the AI act from the EU, contributions from the different political groups, committee, council and parliament")
+        st.write("For instance:")
+        st.write("- What are the main topics addressed by the Greens/EFA group ?")
+        st.write("- How does the JURI committee and the Council differ on biometric systems ?")
+
+
+
 
     # ----------------------------------------------------------------------------
     # Search results
@@ -133,7 +143,8 @@ if __name__ == "__main__":
         retr.search()
 
         with sc2:
-            st.caption(f"Your question was:   \n**{search_query}**  \nwith search type: **{search_type}**, ** content. {gen_model}, number_elements {number_elements}, temperature: {temperature}, author: {author}")
+            st.caption(f"Your question was:   \n**{search_query}**  \nwith search type: **{search_type}**, ** content. {gen_model}")
+            # st.caption(f"Your question was:   \n**{search_query}**  \nwith search type: **{search_type}**, ** content. {gen_model}, number_elements {number_elements}, temperature: {temperature}, author: {author}")
 
         st.subheader("Answer without context:")
         retr.generate_answer_bare()
@@ -147,8 +158,8 @@ if __name__ == "__main__":
         with col2:
             st.markdown(f"<em>{retr.answer_with_context}</em>", unsafe_allow_html=True)
 
+        retr.save()
         st.header("Retrieved elements")
-
 
         for i in range(len(retr.response.objects)):
             with st.expander(retr.retrieved_title(i)):
@@ -162,7 +173,6 @@ if __name__ == "__main__":
         st.divider()
         with st.expander("Context given wo the prompt: "):
             st.caption(retr.context)
-
 
     # ----------------------------------------------------------------------------
     # Connection form

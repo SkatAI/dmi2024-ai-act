@@ -71,7 +71,7 @@ Your task is to answer the question below.
 # make sure:
 - clearly state if you can't find the answer to the question. Do not try to invent an answer.
 - Focus on the differences in the text between the European union entities: commission, council, parliament as well as the political groups and committees.
-- Your answer must be short and concise.
+- Your answer must be short and concise. One line if possible
 --- Question:
 {question}''')
 
@@ -172,6 +172,11 @@ Your task is to answer the question below.
         # else:
         #     tags = ''
         # st.caption(' - '.join([prop['source'], prop['source_type'], prop['text_type'], authors, url, tags]))
+
+    def save(self):
+        print(self.__dict__.keys())
+
+        pass
 
 
 def perform_search(query, search_type, gen_model):
