@@ -88,29 +88,28 @@ if __name__ == "__main__":
             )
 
         search_type_options = ["hybrid", "near_text"]
-        search_type = st.selectbox("search type", search_type_options,
+        search_type = st.selectbox("Search type", search_type_options,
                 index = 0 if st.session_state.get("search_type_key") is None else search_type_options.index(st.session_state.get("search_type_key")),
                 key = "search_type_key"
             )
         # add author + title + numbering
         # author
         author_options = ['--','COMMISSION', 'COUNCIL',  'PARLIAMENT', 'CULT', 'ECR', 'EPP', 'IMCO-LIBE', 'ITRE', 'JURI', 'TRAN', 'GUE/NGL','Greens/EFA', 'ID', 'Renew', 'S&D']
-        author = st.selectbox("authored by", author_options,
+        author = st.selectbox("Authored by", author_options,
                 index = 0 if st.session_state.get("author_key") is None else author_options.index(st.session_state.get("author_key")),
                 key = "author_key"
             )
-        # temperature
-        st.write(st.session_state.get("search_temperature_key"))
-        temperature = st.slider('temperature', min_value=0.0, max_value=1.0, step=0.1,
-                            value= 0.5 if st.session_state.get("search_temperature_key") is None else st.session_state.get("search_temperature_key"),
-                            key = "search_temperature_key")
 
         number_elements_options = [1,2,3,4,5,6,7,8,9,10]
-        number_elements = st.selectbox("Number elements", number_elements_options,
+        number_elements = st.selectbox("Number of retrived elements", number_elements_options,
                 index = 4 if st.session_state.get("number_elements_key") is None else number_elements_options.index(st.session_state.get("number_elements_key")),
                 key = "number_elements_key"
             )
 
+        # temperature
+        temperature = st.slider('Temperature', min_value=0.0, max_value=1.0, step=0.1,
+                            value= 0.5 if st.session_state.get("search_temperature_key") is None else st.session_state.get("search_temperature_key"),
+                            key = "search_temperature_key")
         # authenticator.logout('Logout', 'main', key='unique_key')
 
 
