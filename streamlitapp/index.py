@@ -40,7 +40,7 @@ from langchain.chains import SequentialChain
 from  weaviate_utils_copy import *
 from retrieve import Retrieve
 
-import streamlit_authenticator as stauth
+# import streamlit_authenticator as stauth
 
 import yaml
 from yaml.loader import SafeLoader
@@ -56,28 +56,28 @@ if __name__ == "__main__":
         menu_items={"About": "Knowledge Base on AI-act dataset - RAG"}
     )
 
-    with open('./credentials_users.yml') as file:
-        config = yaml.load(file, Loader=SafeLoader)
+    # with open('./credentials_users.yml') as file:
+    #     config = yaml.load(file, Loader=SafeLoader)
 
-    authenticator = stauth.Authenticate(
-        config['credentials'],
-        config['cookie']['name'],
-        config['cookie']['key'],
-        config['cookie']['expiry_days'],
-        config['preauthorized']
-    )
+    # authenticator = stauth.Authenticate(
+    #     config['credentials'],
+    #     config['cookie']['name'],
+    #     config['cookie']['key'],
+    #     config['cookie']['expiry_days'],
+    #     config['preauthorized']
+    # )
 
     st.title(":blue[AI-act RAG]")
     # st.write("best suited for questions such as : on topic <topic>, what differences do you see between the groups")
-    status = st.session_state['authentication_status']
-    st.write(f"status: {status}")
-    st.session_state["authentication_status"] = True
+    # status = st.session_state['authentication_status']
+    # st.write(f"status: {status}")
+    # st.session_state["authentication_status"] = True
     # ----------------------------------------------------------------------------
     # Sidebar
     # ----------------------------------------------------------------------------
     with st.sidebar:
 
-        if st.session_state["authentication_status"]:
+        # if st.session_state["authentication_status"]:
 
             gen_model_options = ["gpt-3.5-turbo-1106","gpt-4-1106-preview"]
             gen_model = st.selectbox(
@@ -111,14 +111,14 @@ if __name__ == "__main__":
                     key = "number_elements_key"
                 )
 
-            authenticator.logout('Logout', 'main', key='unique_key')
+            # authenticator.logout('Logout', 'main', key='unique_key')
 
 
     # ----------------------------------------------------------------------------
     # Main query input
     # ----------------------------------------------------------------------------
 
-    if st.session_state["authentication_status"]:
+    # if st.session_state["authentication_status"]:
         sc1, sc2 = st.columns([3,1])
         with sc1:
             with st.form('search_form', clear_on_submit = False):
