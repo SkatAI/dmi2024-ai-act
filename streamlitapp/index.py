@@ -125,6 +125,7 @@ if __name__ == "__main__":
             sc3, sc4 = st.columns([8,1])
             with sc3:
                 search_query = st.text_input("Your query:", key="query_input" )
+                search_scope = st.checkbox("Show default generation")
             with sc4:
                 st.write(' ')
                 search_button = st.form_submit_button(label="OK")
@@ -140,8 +141,6 @@ if __name__ == "__main__":
         st.write("- Describe the risk management system for providers")
         st.write("- How does the CULT committee and the Council differ on biometric systems ?")
 
-
-
     # ----------------------------------------------------------------------------
     # Search results
     # ----------------------------------------------------------------------------
@@ -152,16 +151,16 @@ if __name__ == "__main__":
         with sc2:
             st.caption(f"Your question was:   \n**{search_query}**  \nwith search type: **{search_type}**, ** content. {gen_model}")
             # st.caption(f"Your question was:   \n**{search_query}**  \nwith search type: **{search_type}**, ** content. {gen_model}, number_elements {number_elements}, temperature: {temperature}, author: {author}")
-
-        st.subheader("Answer without context:")
-        retr.generate_answer_bare()
-        _, col2 = st.columns([1, 11])
-        with col2:
-            st.markdown(f"<em>{retr.answer_bare}</em>", unsafe_allow_html=True)
+        if search_scope:
+            st.subheader("Answer without context:")
+            retr.generate_answer_bare()
+            _, col2 = st.columns([1, 15])
+            with col2:
+                st.markdown(f"<em>{retr.answer_bare}</em>", unsafe_allow_html=True)
 
         st.subheader("Answer with retrieved documents")
         retr.generate_answer_with_context()
-        _, col2 = st.columns([1, 11])
+        _, col2 = st.columns([1, 15])
         with col2:
             st.markdown(f"<em>{retr.answer_with_context}</em>", unsafe_allow_html=True)
 
@@ -170,13 +169,15 @@ if __name__ == "__main__":
 
         for i in range(len(retr.response.objects)):
             with st.expander(retr.retrieved_title(i)):
-                col1, col2 = st.columns([1, 11])
+                col1, col2 = st.columns([1, 15])
                 with col1:
                     st.subheader(f"{i+1})")
                 with col2:
                     retr.format_properties(i)
                     retr.format_metadata(i)
                     st.divider()
+
+
     # st.divider()
     # with st.expander("Context given wo the prompt: "):
     #     st.caption(retr.context)
