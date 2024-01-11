@@ -79,39 +79,39 @@ if __name__ == "__main__":
 
         # if st.session_state["authentication_status"]:
 
-            gen_model_options = ["gpt-3.5-turbo-1106","gpt-4-1106-preview"]
-            gen_model = st.selectbox(
-                    "Generative model",
-                    gen_model_options,
-                    index = 0 if st.session_state.get("gen_model_key") is None else gen_model_options.index(st.session_state.get("gen_model_key")),
-                    key = "gen_model_key"
-                )
+        gen_model_options = ["gpt-3.5-turbo-1106","gpt-4-1106-preview"]
+        gen_model = st.selectbox(
+                "Generative model",
+                gen_model_options,
+                index = 0 if st.session_state.get("gen_model_key") is None else gen_model_options.index(st.session_state.get("gen_model_key")),
+                key = "gen_model_key"
+            )
 
-            search_type_options = ["hybrid", "near_text"]
-            search_type = st.selectbox("search type", search_type_options,
-                    index = 0 if st.session_state.get("search_type_key") is None else search_type_options.index(st.session_state.get("search_type_key")),
-                    key = "search_type_key"
-                )
-            # add author + title + numbering
-            # author
-            author_options = ['--','COMMISSION', 'COUNCIL',  'PARLIAMENT', 'CULT', 'ECR', 'EPP', 'IMCO-LIBE', 'ITRE', 'JURI', 'TRAN', 'GUE/NGL','Greens/EFA', 'ID', 'Renew', 'S&D']
-            author = st.selectbox("authored by", author_options,
-                    index = 0 if st.session_state.get("author_key") is None else author_options.index(st.session_state.get("author_key")),
-                    key = "author_key"
-                )
-            # temperature
-            st.write(st.session_state.get("search_temperature_key"))
-            temperature = st.slider('temperature', min_value=0.0, max_value=1.0, step=0.1,
-                             value= 0.5 if st.session_state.get("search_temperature_key") is None else st.session_state.get("search_temperature_key"),
-                             key = "search_temperature_key")
+        search_type_options = ["hybrid", "near_text"]
+        search_type = st.selectbox("search type", search_type_options,
+                index = 0 if st.session_state.get("search_type_key") is None else search_type_options.index(st.session_state.get("search_type_key")),
+                key = "search_type_key"
+            )
+        # add author + title + numbering
+        # author
+        author_options = ['--','COMMISSION', 'COUNCIL',  'PARLIAMENT', 'CULT', 'ECR', 'EPP', 'IMCO-LIBE', 'ITRE', 'JURI', 'TRAN', 'GUE/NGL','Greens/EFA', 'ID', 'Renew', 'S&D']
+        author = st.selectbox("authored by", author_options,
+                index = 0 if st.session_state.get("author_key") is None else author_options.index(st.session_state.get("author_key")),
+                key = "author_key"
+            )
+        # temperature
+        st.write(st.session_state.get("search_temperature_key"))
+        temperature = st.slider('temperature', min_value=0.0, max_value=1.0, step=0.1,
+                            value= 0.5 if st.session_state.get("search_temperature_key") is None else st.session_state.get("search_temperature_key"),
+                            key = "search_temperature_key")
 
-            number_elements_options = [1,2,3,4,5,6,7,8,9,10]
-            number_elements = st.selectbox("Number elements", number_elements_options,
-                    index = 4 if st.session_state.get("number_elements_key") is None else number_elements_options.index(st.session_state.get("number_elements_key")),
-                    key = "number_elements_key"
-                )
+        number_elements_options = [1,2,3,4,5,6,7,8,9,10]
+        number_elements = st.selectbox("Number elements", number_elements_options,
+                index = 4 if st.session_state.get("number_elements_key") is None else number_elements_options.index(st.session_state.get("number_elements_key")),
+                key = "number_elements_key"
+            )
 
-            # authenticator.logout('Logout', 'main', key='unique_key')
+        # authenticator.logout('Logout', 'main', key='unique_key')
 
 
     # ----------------------------------------------------------------------------
@@ -119,50 +119,50 @@ if __name__ == "__main__":
     # ----------------------------------------------------------------------------
 
     # if st.session_state["authentication_status"]:
-        sc1, sc2 = st.columns([3,1])
-        with sc1:
-            with st.form('search_form', clear_on_submit = False):
-                search_query = st.text_input("Your query:", key="query_input" )
-                search_button = st.form_submit_button(label="OK")
+    sc1, sc2 = st.columns([3,1])
+    with sc1:
+        with st.form('search_form', clear_on_submit = False):
+            search_query = st.text_input("Your query:", key="query_input" )
+            search_button = st.form_submit_button(label="OK")
 
 
-        # ----------------------------------------------------------------------------
-        # Search results
-        # ----------------------------------------------------------------------------
-        if search_button:
-            retr = Retrieve(search_query, search_type, gen_model, number_elements, temperature, author)
-            retr.search()
+    # ----------------------------------------------------------------------------
+    # Search results
+    # ----------------------------------------------------------------------------
+    if search_button:
+        retr = Retrieve(search_query, search_type, gen_model, number_elements, temperature, author)
+        retr.search()
 
-            with sc2:
-                st.caption(f"Your question was:   \n**{search_query}**  \nwith search type: **{search_type}**, ** content. {gen_model}, number_elements {number_elements}, temperature: {temperature}, author: {author}")
+        with sc2:
+            st.caption(f"Your question was:   \n**{search_query}**  \nwith search type: **{search_type}**, ** content. {gen_model}, number_elements {number_elements}, temperature: {temperature}, author: {author}")
 
-            st.subheader("Answer without context:")
-            retr.generate_answer_bare()
-            _, col2 = st.columns([1, 11])
-            with col2:
-                st.markdown(f"<em>{retr.answer_bare}</em>", unsafe_allow_html=True)
+        st.subheader("Answer without context:")
+        retr.generate_answer_bare()
+        _, col2 = st.columns([1, 11])
+        with col2:
+            st.markdown(f"<em>{retr.answer_bare}</em>", unsafe_allow_html=True)
 
-            st.subheader("Answer with retrieved elements")
-            retr.generate_answer_with_context()
-            _, col2 = st.columns([1, 11])
-            with col2:
-                st.markdown(f"<em>{retr.answer_with_context}</em>", unsafe_allow_html=True)
+        st.subheader("Answer with retrieved elements")
+        retr.generate_answer_with_context()
+        _, col2 = st.columns([1, 11])
+        with col2:
+            st.markdown(f"<em>{retr.answer_with_context}</em>", unsafe_allow_html=True)
 
-            st.header("Retrieved elements")
+        st.header("Retrieved elements")
 
 
-            for i in range(len(retr.response.objects)):
-                with st.expander(retr.retrieved_title(i)):
-                    col1, col2 = st.columns([1, 11])
-                    with col1:
-                        st.subheader(f"{i+1})")
-                    with col2:
-                        retr.format_properties(i)
-                        retr.format_metadata(i)
-                        st.divider()
-            st.divider()
-            with st.expander("Context given wo the prompt: "):
-                st.caption(retr.context)
+        for i in range(len(retr.response.objects)):
+            with st.expander(retr.retrieved_title(i)):
+                col1, col2 = st.columns([1, 11])
+                with col1:
+                    st.subheader(f"{i+1})")
+                with col2:
+                    retr.format_properties(i)
+                    retr.format_metadata(i)
+                    st.divider()
+        st.divider()
+        with st.expander("Context given wo the prompt: "):
+            st.caption(retr.context)
 
 
     # ----------------------------------------------------------------------------
