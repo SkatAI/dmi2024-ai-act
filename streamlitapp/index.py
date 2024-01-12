@@ -68,6 +68,7 @@ if __name__ == "__main__":
     # )
 
     st.subheader(":blue[EIFFEL:] :orange[European Intelligence Framework For Evaluating Legislation]")
+    st.caption("by [Université Gustave Eiffel](https://www.univ-gustave-eiffel.fr/en/)")
 
     # st.write("best suited for questions such as : on topic <topic>, what differences do you see between the groups")
     # status = st.session_state['authentication_status']
@@ -77,7 +78,7 @@ if __name__ == "__main__":
     # Sidebar
     # ----------------------------------------------------------------------------
     with st.sidebar:
-
+        # st.image("logo-gustave-eiffel.png")
         # if st.session_state["authentication_status"]:
 
         gen_model_options = ["gpt-3.5-turbo-1106","gpt-4-1106-preview"]
@@ -88,11 +89,6 @@ if __name__ == "__main__":
                 key = "gen_model_key"
             )
 
-        search_type_options = ["hybrid", "near_text"]
-        search_type = st.selectbox("Search type", search_type_options,
-                index = 0 if st.session_state.get("search_type_key") is None else search_type_options.index(st.session_state.get("search_type_key")),
-                key = "search_type_key"
-            )
         # add author + title + numbering
         # author
         author_options = ['--','COMMISSION', 'COUNCIL',  'PARLIAMENT', 'CULT', 'ECR', 'EPP', 'IMCO-LIBE', 'ITRE', 'JURI', 'TRAN', 'GUE/NGL','Greens/EFA', 'ID', 'Renew', 'S&D']
@@ -109,6 +105,12 @@ if __name__ == "__main__":
             )
 
         st.divider()
+        search_type_options = ["hybrid", "near_text"]
+        search_type = st.selectbox("Search type", search_type_options,
+                index = 0 if st.session_state.get("search_type_key") is None else search_type_options.index(st.session_state.get("search_type_key")),
+                key = "search_type_key"
+            )
+
         number_elements_options = [1,2,3,4,5,6,7,8,9,10]
         number_elements = st.selectbox("Number of retrieved elements", number_elements_options,
                 index = 4 if st.session_state.get("number_elements_key") is None else number_elements_options.index(st.session_state.get("number_elements_key")),
@@ -121,6 +123,8 @@ if __name__ == "__main__":
                             key = "search_temperature_key")
         # authenticator.logout('Logout', 'main', key='unique_key')
 
+        st.divider()
+        st.caption("[github: SkatAI/dmi2024-ai-act](https://github.com/SkatAI/dmi2024-ai-act)")
 
 
     # ----------------------------------------------------------------------------
