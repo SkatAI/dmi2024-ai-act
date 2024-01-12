@@ -179,8 +179,18 @@ Your task is to answer the question below.
         # st.caption(' - '.join([prop['source'], prop['source_type'], prop['text_type'], authors, url, tags]))
 
     def save(self):
-        print(self.__dict__.keys())
-        os.write(1,b'Something was executed.\n')
+        # print(self.__dict__.keys())
+        os.write(1,bytes("--"*20 + "\n", 'utf-8'))
+        os.write(1,bytes(f"query: {self.query}\n" , 'utf-8'))
+        os.write(1,bytes(f"search_type: {self.search_type}\n" , 'utf-8'))
+        os.write(1,bytes(f"gen_model: {self.gen_model}\n" , 'utf-8'))
+        os.write(1,bytes(f"response_count_: {self.response_count_}\n" , 'utf-8'))
+        os.write(1,bytes(f"temperature: {self.temperature}\n" , 'utf-8'))
+        os.write(1,bytes(f"author: {self.author}\n" , 'utf-8'))
+        os.write(1,bytes(f"answer with context:\n {self.answer_with_context}\n" , 'utf-8'))
+        os.write(1,bytes("--"*20 + "\n\n", 'utf-8'))
+
+
         pass
 
 
