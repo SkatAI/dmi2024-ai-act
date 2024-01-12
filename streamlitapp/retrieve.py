@@ -180,7 +180,7 @@ Your task is to answer the question below.
 
     def save(self):
         print(self.__dict__.keys())
-
+        os.write(1,b'Something was executed.\n')
         pass
 
 
