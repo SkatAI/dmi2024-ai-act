@@ -162,8 +162,9 @@ if __name__ == "__main__":
         retr = Retrieve(search_query, search_type, gen_model, number_elements, temperature, author, topic)
         retr.search()
 
-        with sc2:
-            st.caption(f"Your question was:   \n**{search_query}**  \nwith search type: **{search_type}**, ** content. {gen_model}, topic {topic}")
+        # with sc2:
+
+            # st.caption(", ".join([search_type, gen_model, str(number_elements), str(temperature), author, topic]))
             # st.caption(f"Your question was:   \n**{search_query}**  \nwith search type: **{search_type}**, ** content. {gen_model}, number_elements {number_elements}, temperature: {temperature}, author: {author}, topic {topic}")
         if search_scope:
             st.subheader("Answer without context:")
