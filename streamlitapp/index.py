@@ -67,7 +67,7 @@ if __name__ == "__main__":
     #     config['preauthorized']
     # )
 
-    st.title(":blue[EU - AI-act Enquirer]")
+    st.subheader(":blue[EIFFEL:] :orange[European Intelligence Framework For Evaluating Legislation]")
 
     # st.write("best suited for questions such as : on topic <topic>, what differences do you see between the groups")
     # status = st.session_state['authentication_status']
@@ -101,8 +101,16 @@ if __name__ == "__main__":
                 key = "author_key"
             )
 
+        # topics
+        topics_options = topics = ['--','AI Conformity Assessment and Certification', 'AI Impact on Fundamental Rights and Democracy', 'AI Innovation and Support for SMEs and Start-ups', 'AI Regulatory Framework Development', 'AI Standardization and Harmonization', 'AI System Transparency and Accountability', 'AI Systems in Financial and Medical Sectors', 'AI Systems in Public Sector and Law Enforcement', 'Data Protection and Privacy in AI Systems', 'Ethical and Trustworthy AI Development', 'International and Cross-border AI Regulation', 'Market Surveillance and Enforcement of AI Regulation', 'Stakeholder Engagement and Public Consultation in AI Regulation']
+        topic = st.selectbox("Topic", topics_options,
+                index = 0 if st.session_state.get("topic_key") is None else topics_options.index(st.session_state.get("topic_key")),
+                key = "topic_key"
+            )
+
+        st.divider()
         number_elements_options = [1,2,3,4,5,6,7,8,9,10]
-        number_elements = st.selectbox("Number of retrived elements", number_elements_options,
+        number_elements = st.selectbox("Number of retrieved elements", number_elements_options,
                 index = 4 if st.session_state.get("number_elements_key") is None else number_elements_options.index(st.session_state.get("number_elements_key")),
                 key = "number_elements_key"
             )
@@ -112,6 +120,7 @@ if __name__ == "__main__":
                             value= 0.5 if st.session_state.get("search_temperature_key") is None else st.session_state.get("search_temperature_key"),
                             key = "search_temperature_key")
         # authenticator.logout('Logout', 'main', key='unique_key')
+
 
 
     # ----------------------------------------------------------------------------
@@ -124,15 +133,16 @@ if __name__ == "__main__":
         with st.form('search_form', clear_on_submit = False):
             sc3, sc4 = st.columns([8,1])
             with sc3:
-                search_query = st.text_input("Your query:", key="query_input" )
-                search_scope = st.checkbox("Show default generation")
+                search_query = st.text_input("Your question:", key="query_input" )
+                search_scope = st.checkbox("Show the answer generated without context")
+
             with sc4:
                 st.write(' ')
-                search_button = st.form_submit_button(label="OK")
+                search_button = st.form_submit_button(label="Ask")
 
     if not search_button:
-        st.write("Explore the EU AI-act (Commission, Council and Parliament), related amendments from political groups (Renew, Greens/EFA, EPP, ID, ...) and committees (CULT, TRAN, IMCO, ..)")
-        st.write("For instance:")
+        st.write("This RAG/GPT AI allows you to explore the EU AI-act in its different versions (Commission, Council and Parliament) as well as related amendments from political groups (Renew, Greens/EFA, EPP, ID, ...) and committees (CULT, TRAN, IMCO, ..)")
+        st.write("Some questions you can ask the EIFFEL GPT:")
         st.write("- What are the main topics addressed by the Greens/EFA group ?")
         st.write("- How does the JURI committee and the Council differ on biometric systems ?")
         st.write("- How do the JURI and ITRE committees diverge regarding discriminatory effects of AI systems ?")
@@ -145,12 +155,12 @@ if __name__ == "__main__":
     # Search results
     # ----------------------------------------------------------------------------
     if search_button:
-        retr = Retrieve(search_query, search_type, gen_model, number_elements, temperature, author)
+        retr = Retrieve(search_query, search_type, gen_model, number_elements, temperature, author, topic)
         retr.search()
 
         with sc2:
-            st.caption(f"Your question was:   \n**{search_query}**  \nwith search type: **{search_type}**, ** content. {gen_model}")
-            # st.caption(f"Your question was:   \n**{search_query}**  \nwith search type: **{search_type}**, ** content. {gen_model}, number_elements {number_elements}, temperature: {temperature}, author: {author}")
+            st.caption(f"Your question was:   \n**{search_query}**  \nwith search type: **{search_type}**, ** content. {gen_model}, topic {topic}")
+            # st.caption(f"Your question was:   \n**{search_query}**  \nwith search type: **{search_type}**, ** content. {gen_model}, number_elements {number_elements}, temperature: {temperature}, author: {author}, topic {topic}")
         if search_scope:
             st.subheader("Answer without context:")
             retr.generate_answer_bare()

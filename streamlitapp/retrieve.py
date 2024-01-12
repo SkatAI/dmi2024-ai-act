@@ -31,7 +31,7 @@ from  weaviate_utils_copy import *
 
 class Retrieve(object):
 
-    def __init__(self, query, search_type, gen_model, number_elements, temperature, author):
+    def __init__(self, query, search_type, gen_model, number_elements, temperature, author, topic):
         cluster_location = "cloud-cluster"
         self.client = connect_client(cluster_location)
         assert self.client is not None
@@ -40,12 +40,18 @@ class Retrieve(object):
         # retrieval
         self.vectorizer = which_vectorizer("OpenAI")
         self.collection = self.client.collections.get("AIActKnowledgeBase")
-        self.query = query
         self.search_type = search_type
         self.gen_model = gen_model
         self.response_count_ = number_elements
         self.temperature = temperature
         self.author = author
+        self.topic = topic
+        if self.topic == '--':
+            self.query = query
+        else:
+            self.query = query.replace("?", ' ') + f", related to {self.topic} ?"
+
+
         # generative
 
         self.prompt_generative_context =ChatPromptTemplate.from_template(
@@ -101,7 +107,6 @@ Your task is to answer the question below.
             filters = Filter("author").equal(self.author)
         else:
             filters = None
-
         if self.search_type == "hybrid":
             self.response = self.collection.query.hybrid(
                     query=self.query,
