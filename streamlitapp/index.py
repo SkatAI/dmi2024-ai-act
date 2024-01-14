@@ -69,7 +69,8 @@ if __name__ == "__main__":
     #     config['preauthorized']
     # )
 
-    st.subheader(":blue[EIFFEL:] :orange[European Intelligence Framework For Evaluating Legislation]")
+    # st.subheader(":blue[EIFFEL:] :orange[European Intelligence Framework For Evaluating Legislation]")
+    st.subheader(":blue[EIFFEL:] :orange[AI-Act process and content analysis]")
     st.caption("by [Université Gustave Eiffel](https://www.univ-gustave-eiffel.fr/en/)")
 
     # st.write("best suited for questions such as : on topic <topic>, what differences do you see between the groups")
