@@ -189,8 +189,6 @@ Your task is to answer the question below.
         os.write(1,bytes(f"author: {self.author}\n" , 'utf-8'))
         os.write(1,bytes(f"answer with context:\n {self.answer_with_context}\n" , 'utf-8'))
         os.write(1,bytes("--"*20 + "\n\n", 'utf-8'))
-
-
         pass
 
 

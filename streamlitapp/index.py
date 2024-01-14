@@ -45,8 +45,10 @@ from retrieve import Retrieve
 import yaml
 from yaml.loader import SafeLoader
 
+import warnings
 
 if __name__ == "__main__":
+    warnings.filterwarnings("ignore", category=DeprecationWarning)
 
     st.set_page_config(
         page_title="AI-act Knowledge Base",

@@ -65,7 +65,6 @@ def connect_client(location = 'local'):
 
     if location == 'local':
         # connect to weaviate client (on local)
-        print("connection to local")
         client = weaviate.connect_to_local(
                 port=8080,
                 grpc_port=50051,
@@ -75,9 +74,8 @@ def connect_client(location = 'local'):
             )
 
     if location == 'cloud-cluster':
-        print("connection to wcs")
         client = weaviate.connect_to_wcs(
-                    cluster_url="https://6q45jbvsfo4cmhzrpjwoq.c1.europe-west3.gcp.weaviate.cloud",
+                    cluster_url=os.environ["WEAVIATE_CLUSTER_URL"],
                     auth_credentials=weaviate.AuthApiKey(os.environ["WEAVIATE_KEY"]),
                     headers={
                         "X-OpenAI-Api-Key": os.environ["OPENAI_APIKEY"],
